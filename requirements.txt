@@ -1,0 +1,7 @@
+#python>3.11.0
+discord.py==2.2.2
+requests
+langchain
+openai
+python-dotenv
+pymongo
