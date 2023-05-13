@@ -1,9 +1,12 @@
 name: GPT-FETCH App Run
 
 on: 
-    pull_request:
-        branches: 
-            - master
+    workflow_dispatch:
+        inputs:
+            mode:
+                description: 'Mode'
+                required: true
+                default: 'dev'
 
 jobs:
     run:
