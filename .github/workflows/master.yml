@@ -34,7 +34,7 @@ jobs:
                   python-version: ${{ matrix.python-version }}
                   cache: 'pip'
                   cache-dependency-path: './src/main.py'
-                  
+
             - name: Start MongoDB
               uses: supercharge/mongodb-github-action@1.7.0
               with:
@@ -45,5 +45,5 @@ jobs:
                   pip install -r ./requirements.txt
             - name: Run
               run: |
-                  python main.py
+                  python ./src/main.py
 
