@@ -97,7 +97,7 @@ async def on_message(message: Message):
         # print(f"Creating a new thread for the new conversation for user [{ctx.author.name}: {ctx.author.id}]")
         # await store_in_user_conversation_list(ctx.author.id, username, name)
         # await ctx.send(f'Created a new conversation instance with name `{name}`')
-        thread: Thread = await message.create_thread(name=content[:10], auto_archive_duration=1440])
+        thread: Thread = await message.create_thread(name=content[:10])
         print(f'# Does this every hit?  \nCreated a new thread: {thread.name}')
     return
 
