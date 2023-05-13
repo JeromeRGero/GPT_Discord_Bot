@@ -50,7 +50,7 @@ jobs:
             - name: Start MongoDB
               uses: supercharge/mongodb-github-action@1.8.0
               with:
-                mongodb-version: ${{ matrix.mongodb-version }}
+                mongodb-version: 5.3.2
             - name: Install dependencies
               run: |
                   python -m pip install --upgrade pip
