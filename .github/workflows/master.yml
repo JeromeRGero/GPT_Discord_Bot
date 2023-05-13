@@ -17,6 +17,8 @@ jobs:
         
         strategy:
             matrix:
+                node-version: [18.x]
+                mongodb-version: [5.2.1]
                 python-version: [3.11]
 
         env:
@@ -30,13 +32,22 @@ jobs:
         steps: 
             - uses: actions/checkout@v3
 
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                node-version: ${{ matrix.node-version }}
+
             - name: Start MongoDB
-              uses: supercharge/mongodb-github-action@1.9.0
+              uses: supercharge/mongodb-github-action@1.8.0
+              with:
+                mongodb-version: ${{ matrix.mongodb-version }}
 
             - name: Set up Python ${{ matrix.python-version }}
               uses: actions/setup-python@v4
               with:
                   python-version: ${{ matrix.python-version }}
+
+            - run: npm install
 
             - name: Install dependencies
               run: |
@@ -46,3 +57,4 @@ jobs:
             - name: Run
               run: |
                   python main.py
+
