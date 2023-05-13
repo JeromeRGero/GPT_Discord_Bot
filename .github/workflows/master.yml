@@ -9,22 +9,9 @@ on:
                 default: 'dev'
 
 jobs:
-    pre-commit:
-        name: pre-commit
-        runs-on: ubuntu-latest
-    
-        steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-python@v2
-            - uses: pre-commit/action@v2.0.0
-              with:
-                extra_args: --all-files --hook-stage=manual
 
     build:
         runs-on: ubuntu-latest
-        # defaults:
-        #     run:
-        #         working-directory: ./src
         strategy:
             matrix:
                 os: [ubuntu-20.04]
@@ -47,6 +34,7 @@ jobs:
                   python-version: ${{ matrix.python-version }}
                   cache: 'pip'
                   cache-dependency-path: './src/main.py'
+                  
             - name: Start MongoDB
               uses: supercharge/mongodb-github-action@1.7.0
               with:
