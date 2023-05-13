@@ -1,5 +1,6 @@
 import os
 import discord
+from discord.message import Message
 from discord.ext import commands
 from db import *
 from commands import *
@@ -32,13 +33,13 @@ async def on_thread_create(thread):
     print(f'Thread created: {thread.name}')
 
 @bot.event
-async def on_message(message):
+async def on_message(message: Message):
     # Ignore messages from the bot itself and messages from other channels.
     if message.author == bot.user or message.channel.name != 'gpt-4-deus':
         return
 
     # Process commands
-    content = message.content
+    content: str = message.content
     if content.startswith('?'):
         await bot.process_commands(message)
         return
@@ -60,10 +61,10 @@ async def on_message(message):
         return
     
     # Get the active conversation. formated as userid_conversationname
-    refined_conversation_name = str(user_conversations_document['active_conversation'])
-    print(f'Active conversation found: {refined_conversation_name}')
+    id_conversation_name = str(user_conversations_document['active_conversation'])
+    print(f'Active conversation found: {id_conversation_name}')
 
-    await process_conversation(content, refined_conversation_name, message)
+    await process_conversation(content, id_conversation_name, message)
 
 
 # Run the bot

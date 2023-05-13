@@ -1,3 +1,5 @@
+from discord.message import Message
+from discord.threads import Thread
 import openai
 import langchain
 from langchain.chat_models import ChatOpenAI
@@ -21,6 +23,7 @@ from langchain.schema import (
     messages_to_dict
 )
 from config import *
+from helper import *
 
 async def process_conversation(user_message, id_conversation_name, message):
     # ------------------ OpenAI ------------------
