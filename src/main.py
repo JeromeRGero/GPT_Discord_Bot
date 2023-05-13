@@ -26,7 +26,7 @@ bot.add_command(q) # q for query.
 # Events
 @bot.event
 async def on_ready():
-    print(f'Bot is ready, logged in as {bot.user}')
+    print(f'Bot is ready, logged in as {bot.user} with an id of {bot.user.id}')
 
 @bot.event
 async def on_thread_create(thread):
