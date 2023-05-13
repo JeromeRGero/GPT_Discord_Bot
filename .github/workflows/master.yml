@@ -34,7 +34,8 @@ jobs:
                   python-version: ${{ matrix.python-version }}
                   cache: 'pip'
                   cache-dependency-path: './src/main.py'
-
+            - name: Print MONGO_DB_URL
+              run: echo $MONGO_DB_URL
             - name: Start MongoDB
               uses: supercharge/mongodb-github-action@1.7.0
               with:
