@@ -20,7 +20,12 @@ jobs:
                 python-version: [3.11]
 
         env:
-            MODE: "dev"
+            OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+            DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+            MONGO_DB_URL: ${{ secrets.MONGO_DB_URL }}
+            MONGO_DB: ${{ secrets.MONGO_DB }}
+            CONVERSATION_LIST_COLLECTION: ${{ secrets.CONVERSATION_LIST_COLLECTION }}
+            CONVERSATIONS_COLLECTION: ${{ secrets.CONVERSATIONS_COLLECTION }}
 
         steps: 
             - uses: actions/checkout@v3
