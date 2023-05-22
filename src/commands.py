@@ -105,5 +105,22 @@ async def delete(ctx, name=None):
             return
     pass
 
+@commands.command()
+async def clear(ctx):
+    print(ctx.author.id)
+    userid = ctx.author.id
+    users_conversations = await get_user_conversation_list(ctx.author.id)
+    if users_conversations is None:
+        await ctx.send('There is no active conversation')
+        return
+    else:
+        id_conversation_name = users_conversations['active_conversation']
+        if id_conversation_name is None or id_conversation_name == '':
+            await ctx.send('You do not have an active conversation instance.')
+            return
+        await clear_active_conversation(userid)
+        await ctx.send(f'Active conversation cleared')
+    pass
+
 
 # TODO - Help command

@@ -21,6 +21,7 @@ bot.add_command(delete)
 # bot.add_command(help)
 bot.add_command(jumpto)
 bot.add_command(q) # q for query.
+bot.add_command(clear) # Clears the active conversation
 
 
 # Events
@@ -33,8 +34,8 @@ async def on_thread_create(thread):
     print(f'Thread created: {thread.name}')
 
 @bot.event
-async def on_command_error(thread):
-    print(f"An error occurred: {str(error)}")
+async def on_command_error(content, exception):
+    print(f"An error occurred: {str(exception)}")
 
 @bot.event
 async def on_message(message: Message):
@@ -48,6 +49,8 @@ async def on_message(message: Message):
     if content.startswith('!'):
         await bot.process_commands(message)
         return
+
+    #TODO Create thread if no active conversation
 
     # Continue or create a conversation.
     userid = message.author.id
