@@ -4,6 +4,8 @@ from pymongo import MongoClient
 
 load_dotenv()
 
+print(os.environ.get('MONGO_DB_URL'))
+
 # Get environment variables
 openai_api_key = os.environ.get('OPENAI_API_KEY')
 discord_bot_token = os.environ.get('DISCORD_BOT_TOKEN')
