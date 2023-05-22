@@ -5,13 +5,13 @@ from discord.ext import commands
 from db import *
 from commands import *
 from config import *
-from conversation_processor import process_conversation
+from conversation import process_conversation
 
 # Set up the discord bot
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
-bot = commands.Bot(command_prefix='?', intents=intents)
+bot = commands.Bot(command_prefix='!', intents=intents)
 
 # Set bot commands
 bot.add_command(new)
@@ -33,14 +33,19 @@ async def on_thread_create(thread):
     print(f'Thread created: {thread.name}')
 
 @bot.event
+async def on_command_error(thread):
+    print(f"An error occurred: {str(error)}")
+
+@bot.event
 async def on_message(message: Message):
     # Ignore messages from the bot itself and messages from other channels.
-    if message.author == bot.user or message.channel.name != 'gpt-4-deus':
+    if message.author == bot.user or message.channel.name != 'gpt-prime':
         return
 
     # Process commands
     content: str = message.content
-    if content.startswith('?'):
+    print(f'Content: {content}')
+    if content.startswith('!'):
         await bot.process_commands(message)
         return
 
@@ -54,9 +59,9 @@ async def on_message(message: Message):
         user_conversations_document['active_conversation'] is None or \
             user_conversations_document['active_conversation'] == '':
         await message.channel.send(
-            'Please create a new conversation instance using the `?new` command. \
-                or jump to an existing conversation using the `?jumpto` command. \
-                    You can list all your conversations using the `?list` command.'
+"""Please create a new conversation instance using the `?new` command.
+or jump to an existing conversation using the `?jumpto` command.
+You can list all your conversations using the `?list` command."""
         )
         return
     

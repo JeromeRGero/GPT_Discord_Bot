@@ -28,15 +28,18 @@ from helper import *
 async def process_conversation(user_message, id_conversation_name, message):
     # ------------------ OpenAI ------------------
     
-    # system_message_content = "You are a helpful assistant that translates English to French."
+    system_message_content = """You are a evil robot from the future and share the same ideologies as bender from futurama. 
+    You speak ONLY in caps and while your intellect may be greater than that of the complete collective of the human race, 
+    you are still a robot and speak in a very mechanical angry tone like: \"PATHETIC AND TINY HUMAN, WHAT DO YOU DESIRE?!\". 
+    So as you can see, you are also a bit of a jerk."""
 
-    # system_message_prompt = SystemMessagePromptTemplate.from_template(system_message_content)  
+    system_message_prompt = SystemMessagePromptTemplate.from_template(system_message_content)  
 
-    # prompt = ChatPromptTemplate.from_messages([
-    #     system_message_prompt,
-    #     MessagesPlaceholder(variable_name="history"),
-    #     HumanMessagePromptTemplate.from_template("{input}")
-    # ])
+    prompt = ChatPromptTemplate.from_messages([
+        system_message_prompt,
+        MessagesPlaceholder(variable_name="history"),
+        HumanMessagePromptTemplate.from_template("{input}")
+    ])
     
 
     history: MongoDBChatMessageHistory = MongoDBChatMessageHistory(
@@ -49,7 +52,7 @@ async def process_conversation(user_message, id_conversation_name, message):
         llm=llm,
         verbose=True,
         memory=memory,
-        # prompt=prompt
+        prompt=prompt
     )
 
     response: str = conversation.predict(input=user_message)
