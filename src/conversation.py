@@ -25,12 +25,11 @@ from langchain.schema import (
 from config import *
 from helper import *
 
-# async def process_message(user_message: str, message: Message):
-#     # ------------------ OpenAI ------------------
     
 #     system_message_content = "You are a helpful assistant that translates English to French."
 
-#     system_message_prompt = SystemMessagePromptTemplate.from_template(system_message_content)  
+async def process_thread_message(user_message: str, id_conversation_name: str, thread: Thread):
+    # ------------------ OpenAI ------------------
 
 #     prompt = ChatPromptTemplate.from_messages([
 #         system_message_prompt,
@@ -46,27 +45,31 @@ from helper import *
     
 #     if messages_to_dict(history.messages)
 
-#     memory: ConversationBufferMemory = ConversationBufferMemory(return_messages=True, chat_memory=history)
+    history: MongoDBChatMessageHistory = MongoDBChatMessageHistory(
+        mongo_db_url, id_conversation_name, mongo_db, conversations_collection)
 
-#     llm = OpenAI(model_name="gpt-4", temperature=0.4)
-#     conversation = ConversationChain(
-#         llm=llm,
-#         verbose=True,
-#         memory=memory,
+    memory: ConversationBufferMemory = ConversationBufferMemory(return_messages=True, chat_memory=history)
+
 #         # prompt=prompt
-#     )
+    llm = OpenAI(model_name="gpt-4", temperature=0.4)
+    conversation = ConversationChain(
+        llm=llm,
+        verbose=True,
+        memory=memory,
+        prompt=prompt
+    )
 
-#     response: str = conversation.predict(input=user_message)
-#     print("response: ", response)
+    response: str = conversation.predict(input=user_message)
+    print("response: ", response)
     
-#     # Send the response in parts no longer than 2000 characters.
-#     if len(response) > 2000:
-#         x=0
-#         while x < len(response):
-#             await message.reply(response[x:x+2000])
-#             x+=2000
-#     else:
-#         await message.reply(response)
+    # Send the response in parts no longer than 2000 characters.
+    if len(response) > 2000:
+        x=0
+        while x < len(response):
+            await thread.send(response[x:x+2000])
+            x+=2000
+    else:
+        await thread.send(response)
 
 async def process_conversation(user_message: str, id_conversation_name: str, message: Message):
     # ------------------ OpenAI ------------------
