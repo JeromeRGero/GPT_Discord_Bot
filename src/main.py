@@ -105,4 +105,4 @@ async def on_message(message: Message):
 
         
 # Run the bot
-bot.run("discord_bot_token")
+bot.run(discord_bot_token)
