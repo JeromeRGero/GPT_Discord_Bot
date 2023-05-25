@@ -105,4 +105,4 @@ async def on_message(message: Message):
 
         
 # Run the bot
-bot.run("ODIyMTE5NTYyNDA4NzU1MjMw.GHOMJY.gpQ0vWE13bgDu2T09VmW4hwv44WTP7KdASl9Nc")
+bot.run("discord_bot_token")
