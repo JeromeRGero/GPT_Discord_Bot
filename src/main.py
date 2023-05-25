@@ -28,17 +28,20 @@ bot.add_command(clear) # Clears the active conversation
 # Events
 @bot.event
 async def on_ready():
+    assert bot.user is not None
     print(f'Bot is ready, logged in as {bot.user} with an id of {bot.user.id}')
 
 @bot.event
 async def on_thread_create(thread: Thread):
+    assert thread.parent is not None
     parent_channel_name = thread.parent.name
-
+    assert bot.user is not None
     if thread.owner_id != bot.user.id or parent_channel_name != 'gpt-prime':
         return
     # Process first message (somehow)
     message_reference = thread.starter_message
     id_conversation_name = f'thread_{thread.id}_{thread.name}'
+    assert message_reference is not None
     await process_thread_message(message_reference.content, id_conversation_name, thread)
     return
 
@@ -53,6 +56,7 @@ async def on_message(message: Message):
     if isinstance(message.channel, discord.threads.Thread):
         thread_channel_name: str = message.channel.name
         thread_channel_id = message.channel.id
+        assert message.channel.parent is not None
         parent_channel_name = message.channel.parent.name
         #If message is in the correct channel
         if message.author == bot.user or parent_channel_name != 'gpt-prime':
@@ -62,7 +66,8 @@ async def on_message(message: Message):
         # Process commands in the thread
     else:
         # Ignore messages from the bot itself and messages from other channels.
-        if message.author == bot.user or message.channel.name != 'gpt-prime':
+        if message.author == bot.user or isinstance(message.channel, discord.DMChannel) or \
+              isinstance(message.channel, discord.PartialMessageable) or message.channel.name != 'gpt-prime':
             return
         # Process commands
         content: str = message.content
